@@ -1,6 +1,18 @@
 {
-  "version": "0.0.0",
-  "keywords": [],
+  "name": "strapi-plugin-mf-builder",
+  "version": "1.0.0",
+  "description": "A visual page builder plugin for Strapi that enables composing pages from Module Federation remote components",
+  "keywords": [
+    "strapi",
+    "strapi-plugin",
+    "module-federation",
+    "page-builder",
+    "visual-editor",
+    "drag-and-drop",
+    "micro-frontends",
+    "cms",
+    "headless-cms"
+  ],
   "type": "commonjs",
   "exports": {
     "./package.json": "./package.json",
@@ -65,12 +77,22 @@
   },
   "strapi": {
     "kind": "plugin",
-    "name": "mf-plugin",
-    "displayName": "Module-federation",
-    "description": "Manage your plugins from strapi"
+    "name": "mf-builder",
+    "displayName": "Module Federation Page Builder",
+    "description": "Visual page builder using Module Federation remote components"
   },
-  "name": "mf-plugin",
-  "description": "Manage your plugins from strapi",
   "license": "MIT",
-  "author": "Mikias Tilahun Abebe <mikiastilahun@gmail.com>"
+  "author": "Mikias Tilahun Abebe <mikiastilahun@gmail.com>",
+  "homepage": "https://github.com/mikiastilahun/strapi-mf-plugin#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mikiastilahun/strapi-mf-plugin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mikiastilahun/strapi-mf-plugin/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0 <=22.x.x",
+    "npm": ">=6.0.0"
+  }
 }
