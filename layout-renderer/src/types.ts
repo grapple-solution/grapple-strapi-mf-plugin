@@ -75,4 +75,6 @@ export interface ComponentRenderInfo {
   remoteEntry: string;
   scope: string;
   exposePath: string;
+  /** Whether this is a default built-in component (not from Module Federation) */
+  isDefault?: boolean;
 }

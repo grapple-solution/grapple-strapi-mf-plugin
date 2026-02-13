@@ -1,9 +1,12 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useDraggable } from '@dnd-kit/core';
 import { TextInput, Loader } from '@strapi/design-system';
-import { Search, PuzzlePiece, ChevronDown, ChevronRight } from '@strapi/icons';
+import { Search, PuzzlePiece, ChevronDown, ChevronRight, Layout } from '@strapi/icons';
 import { useComponents } from '../../hooks/useComponents';
 import type { ComponentWithSource, ComponentsBySource } from '../../types';
+
+// Constants for default components source
+const DEFAULT_SOURCE_DOCUMENT_ID = 'default-components';
 
 interface DraggableComponentProps {
   component: ComponentWithSource;
@@ -18,6 +21,9 @@ function DraggableComponent({ component }: DraggableComponentProps) {
     },
   });
 
+  // Check if this is a default component
+  const isDefault = component.sourceDocumentId === DEFAULT_SOURCE_DOCUMENT_ID;
+
   return (
     <div
       ref={setNodeRef}
@@ -29,7 +35,7 @@ function DraggableComponent({ component }: DraggableComponentProps) {
         marginBottom: '4px',
         background: '#ffffff',
         borderRadius: '4px',
-        border: '1px solid #e0e0e6',
+        border: isDefault ? '1px solid #d9d8ff' : '1px solid #e0e0e6',
       }}
       {...listeners}
       {...attributes}
@@ -40,14 +46,18 @@ function DraggableComponent({ component }: DraggableComponentProps) {
             width: '24px',
             height: '24px',
             minWidth: '24px',
-            background: '#f0f0ff',
+            background: isDefault ? '#e0e7ff' : '#f0f0ff',
             borderRadius: '4px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
           }}
         >
-          <PuzzlePiece width={12} height={12} fill="#4945ff" />
+          {isDefault ? (
+            <Layout width={12} height={12} fill="#4945ff" />
+          ) : (
+            <PuzzlePiece width={12} height={12} fill="#4945ff" />
+          )}
         </div>
         <div style={{ flex: 1, overflow: 'hidden', minWidth: 0 }}>
           <div
@@ -98,6 +108,9 @@ function ComponentGroup({ source, searchQuery, isExpanded, onToggle }: Component
 
   if (filteredComponents.length === 0) return null;
 
+  // Check if this is the default components source
+  const isDefault = source.sourceDocumentId === DEFAULT_SOURCE_DOCUMENT_ID;
+
   return (
     <div style={{ marginBottom: '4px' }}>
       <div
@@ -107,7 +120,7 @@ function ComponentGroup({ source, searchQuery, isExpanded, onToggle }: Component
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: '8px 10px',
-          background: '#f6f6f9',
+          background: isDefault ? '#e0e7ff' : '#f6f6f9',
           borderRadius: '4px',
           cursor: 'pointer',
           userSelect: 'none',
@@ -115,21 +128,38 @@ function ComponentGroup({ source, searchQuery, isExpanded, onToggle }: Component
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           {isExpanded ? (
-            <ChevronDown width={12} height={12} fill="#666687" />
+            <ChevronDown width={12} height={12} fill={isDefault ? '#4945ff' : '#666687'} />
           ) : (
-            <ChevronRight width={12} height={12} fill="#666687" />
+            <ChevronRight width={12} height={12} fill={isDefault ? '#4945ff' : '#666687'} />
           )}
-          <span style={{ fontSize: '13px', fontWeight: 600, color: '#32324d' }}>
+          <span
+            style={{ fontSize: '13px', fontWeight: 600, color: isDefault ? '#4945ff' : '#32324d' }}
+          >
             {source.sourceName}
           </span>
+          {isDefault && (
+            <span
+              style={{
+                fontSize: '9px',
+                padding: '1px 4px',
+                background: '#4945ff',
+                borderRadius: '4px',
+                color: '#ffffff',
+                textTransform: 'uppercase',
+                fontWeight: 700,
+              }}
+            >
+              Built-in
+            </span>
+          )}
         </div>
         <span
           style={{
             fontSize: '11px',
             padding: '2px 6px',
-            background: '#dcdce4',
+            background: isDefault ? '#c7d2fe' : '#dcdce4',
             borderRadius: '10px',
-            color: '#666687',
+            color: isDefault ? '#4945ff' : '#666687',
           }}
         >
           {filteredComponents.length}
@@ -233,7 +263,10 @@ export function ComponentPalette() {
   }
 
   return (
-    <div ref={containerRef} style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+    <div
+      ref={containerRef}
+      style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}
+    >
       {/* Search */}
       <div
         ref={searchRef}

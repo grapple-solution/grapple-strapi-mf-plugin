@@ -27,6 +27,8 @@
 
       // Build component render info from layout items and remotes
       componentInfos = layoutData.layout.items.map(item => {
+        // Check if this is a default component
+        const isDefault = item.componentId.startsWith('default-components/');
         const remote = layoutData!.remotes[item.mfSourceId];
         // Parse the componentId to extract the expose path
         // Format: "scope/Category/componentName" -> exposePath is "Category/componentName"
@@ -39,6 +41,7 @@
           remoteEntry: remote?.remoteEntry || '',
           scope: remote?.scope || '',
           exposePath: `./${exposePath}`,
+          isDefault,
         };
       });
 

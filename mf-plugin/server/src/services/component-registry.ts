@@ -5,14 +5,24 @@ const PLUGIN_ID = 'plugin::mf-plugin';
 
 const componentRegistryService = ({ strapi }: { strapi: Core.Strapi }) => ({
   /**
-   * Get all components from all active MF sources
+   * Get default components service
+   */
+  getDefaultComponentsService() {
+    return strapi.plugin('mf-plugin').service('default-components');
+  },
+
+  /**
+   * Get all components from all active MF sources (includes default components)
    */
   async getAllComponents(): Promise<ComponentWithSource[]> {
     const sources = (await strapi.documents(`${PLUGIN_ID}.mf-source`).findMany({
       filters: { isActive: true },
     })) as any[];
 
-    const allComponents: ComponentWithSource[] = [];
+    // Start with default components
+    const defaultComponentsService = this.getDefaultComponentsService();
+    const allComponents: ComponentWithSource[] =
+      defaultComponentsService.getDefaultComponentsWithSource();
 
     sources.forEach((source: any) => {
       const components = (source.components as ParsedComponent[]) || [];
@@ -52,7 +62,7 @@ const componentRegistryService = ({ strapi }: { strapi: Core.Strapi }) => ({
   },
 
   /**
-   * Get components grouped by MF source
+   * Get components grouped by MF source (includes default components as first group)
    */
   async getComponentsBySource(): Promise<
     Array<{
@@ -68,20 +78,43 @@ const componentRegistryService = ({ strapi }: { strapi: Core.Strapi }) => ({
       filters: { isActive: true },
     })) as any[];
 
-    return sources.map((source: any) => ({
-      sourceId: source.id,
-      sourceDocumentId: source.documentId,
-      sourceName: source.name,
-      remoteEntry: source.remoteEntry,
-      scope: source.scope,
-      components: (source.components as ParsedComponent[]) || [],
-    }));
+    // Start with default components as the first group
+    const defaultComponentsService = this.getDefaultComponentsService();
+    const result = [
+      defaultComponentsService.getDefaultComponentsBySource(),
+      ...sources.map((source: any) => ({
+        sourceId: source.id,
+        sourceDocumentId: source.documentId,
+        sourceName: source.name,
+        remoteEntry: source.remoteEntry,
+        scope: source.scope,
+        components: (source.components as ParsedComponent[]) || [],
+      })),
+    ];
+
+    return result;
   },
 
   /**
    * Find a specific component by its ID
    */
   async findComponent(componentId: string): Promise<ComponentWithSource | null> {
+    // Check default components first for performance
+    const defaultComponentsService = this.getDefaultComponentsService();
+    if (defaultComponentsService.isDefaultComponent(componentId)) {
+      const defaultComponent = defaultComponentsService.findDefaultComponent(componentId);
+      if (defaultComponent) {
+        return {
+          ...defaultComponent,
+          sourceId: -1,
+          sourceDocumentId: 'default-components',
+          sourceName: 'Default Components',
+          remoteEntry: null,
+          scope: null,
+        };
+      }
+    }
+
     const components = await this.getAllComponents();
     return components.find((c) => c.id === componentId) || null;
   },

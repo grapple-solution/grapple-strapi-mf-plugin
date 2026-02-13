@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte';
-  import MFComponent from './MFComponent.svelte';
+  import ComponentRenderer from './ComponentRenderer.svelte';
   import type { LayoutItem, GridConfig, ComponentRenderInfo } from '../types';
 
   export let items: LayoutItem[];
@@ -81,7 +81,7 @@
       style="grid-column: {scaledColumn}; grid-row: {item.gridRow};"
     >
       {#if componentInfo}
-        <MFComponent {componentInfo} />
+        <ComponentRenderer {componentInfo} />
       {:else}
         <div class="not-found">
           Component not found: {item.componentId}

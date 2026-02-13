@@ -1,5 +1,6 @@
 import type { Core } from '@strapi/strapi';
 import type { LayoutItem, GridConfig, PageLayoutData } from '../types';
+import { DEFAULT_SOURCE_ID, DEFAULT_SOURCE_NAME } from './default-components';
 
 const PLUGIN_ID = 'plugin::mf-plugin';
 
@@ -103,9 +104,13 @@ const layoutService = ({ strapi }: { strapi: Core.Strapi }) => ({
     // Get MF sources for each component in the layout
     const mfSourceIds = new Set<number>();
     const layoutItems = (layout.layout as { items: LayoutItem[] })?.items || [];
+    let hasDefaultComponents = false;
 
     layoutItems.forEach((item: LayoutItem) => {
-      if (item.mfSourceId) {
+      if (item.mfSourceId === DEFAULT_SOURCE_ID) {
+        // Track that we have default components
+        hasDefaultComponents = true;
+      } else if (item.mfSourceId) {
         mfSourceIds.add(item.mfSourceId);
       }
     });
@@ -130,8 +135,17 @@ const layoutService = ({ strapi }: { strapi: Core.Strapi }) => ({
         }
         return acc;
       },
-      {} as Record<number, { name: string; remoteEntry: string; scope: string }>
+      {} as Record<number, { name: string; remoteEntry: string | null; scope: string | null }>
     );
+
+    // Add default components source if used
+    if (hasDefaultComponents) {
+      mfSourceMap[DEFAULT_SOURCE_ID] = {
+        name: DEFAULT_SOURCE_NAME,
+        remoteEntry: null,
+        scope: null,
+      };
+    }
 
     return {
       version: '1.0.0',

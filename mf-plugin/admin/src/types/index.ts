@@ -24,6 +24,8 @@ export interface ComponentWithSource extends ParsedComponent {
   sourceName: string;
   remoteEntry: string | null;
   scope: string | null;
+  /** Whether this is a default built-in component (not from Module Federation) */
+  isDefault?: boolean;
 }
 
 // MF Source types
@@ -92,6 +94,8 @@ export interface ComponentsBySource {
   remoteEntry: string | null;
   scope: string | null;
   components: ParsedComponent[];
+  /** Whether this is the default components source (not from Module Federation) */
+  isDefault?: boolean;
 }
 
 // API Response types
