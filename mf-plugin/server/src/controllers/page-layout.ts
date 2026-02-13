@@ -5,7 +5,7 @@ const pageLayoutController = ({ strapi }: { strapi: Core.Strapi }) => ({
    * List all page layouts
    */
   async find(ctx) {
-    const layoutService = strapi.plugin('mf-plugin').service('layout');
+    const layoutService = strapi.plugin('mf-builder').service('layout');
     const layouts = await layoutService.findAll();
 
     ctx.body = { data: layouts };
@@ -16,7 +16,7 @@ const pageLayoutController = ({ strapi }: { strapi: Core.Strapi }) => ({
    */
   async findOne(ctx) {
     const { id } = ctx.params;
-    const layoutService = strapi.plugin('mf-plugin').service('layout');
+    const layoutService = strapi.plugin('mf-builder').service('layout');
     const layout = await layoutService.findOne(id);
 
     if (!layout) {
@@ -31,7 +31,7 @@ const pageLayoutController = ({ strapi }: { strapi: Core.Strapi }) => ({
    */
   async findBySlug(ctx) {
     const { slug } = ctx.params;
-    const layoutService = strapi.plugin('mf-plugin').service('layout');
+    const layoutService = strapi.plugin('mf-builder').service('layout');
     const layout = await layoutService.findBySlug(slug);
 
     if (!layout) {
@@ -51,7 +51,7 @@ const pageLayoutController = ({ strapi }: { strapi: Core.Strapi }) => ({
       return ctx.badRequest('Name is required');
     }
 
-    const layoutService = strapi.plugin('mf-plugin').service('layout');
+    const layoutService = strapi.plugin('mf-builder').service('layout');
 
     // Validate layout if provided
     if (layout) {
@@ -80,7 +80,7 @@ const pageLayoutController = ({ strapi }: { strapi: Core.Strapi }) => ({
     const { id } = ctx.params;
     const { name, slug, description, layout, gridConfig, metadata, isPublished } = ctx.request.body;
 
-    const layoutService = strapi.plugin('mf-plugin').service('layout');
+    const layoutService = strapi.plugin('mf-builder').service('layout');
     const existing = await layoutService.findOne(id);
 
     if (!existing) {
@@ -115,7 +115,7 @@ const pageLayoutController = ({ strapi }: { strapi: Core.Strapi }) => ({
   async delete(ctx) {
     const { id } = ctx.params;
 
-    const layoutService = strapi.plugin('mf-plugin').service('layout');
+    const layoutService = strapi.plugin('mf-builder').service('layout');
     const existing = await layoutService.findOne(id);
 
     if (!existing) {
@@ -133,7 +133,7 @@ const pageLayoutController = ({ strapi }: { strapi: Core.Strapi }) => ({
   async export(ctx) {
     const { id } = ctx.params;
 
-    const layoutService = strapi.plugin('mf-plugin').service('layout');
+    const layoutService = strapi.plugin('mf-builder').service('layout');
 
     try {
       const exported = await layoutService.exportLayout(id);

@@ -2,7 +2,7 @@ import type { Core } from '@strapi/strapi';
 import type { LayoutItem, GridConfig, PageLayoutData } from '../types';
 import { DEFAULT_SOURCE_ID, DEFAULT_SOURCE_NAME } from './default-components';
 
-const PLUGIN_ID = 'plugin::mf-plugin';
+const PLUGIN_ID = 'plugin::mf-builder';
 
 const DEFAULT_GRID_CONFIG: GridConfig = {
   columns: 12,

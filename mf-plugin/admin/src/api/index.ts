@@ -9,7 +9,7 @@ import type {
   GridConfig,
 } from '../types';
 
-// Admin API routes are accessed via /mf-plugin/ path
+// Admin API routes are accessed via /mf-builder/ path (defined by PLUGIN_ID)
 const API_BASE = `/${PLUGIN_ID}`;
 
 // Type for the fetch client from Strapi

@@ -184,7 +184,7 @@ The renderer will be available at `http://localhost:3001`
 1. Open Strapi admin at `http://localhost:1337/admin`
 2. Create an admin account if first time
 3. Navigate to **Settings > Users & Permissions > Roles > Public**
-4. Enable the following permissions for `mf-plugin`:
+4. Enable the following permissions for `mf-builder`:
    - `page-layout`: `find`, `findOne`, `findBySlug`
    - `mf-source`: `find`, `findOne`
 
@@ -295,7 +295,7 @@ pnpm test
 #### Get Layout by Slug
 
 ```
-GET /api/mf-plugin/page-layouts/slug/:slug
+GET /api/mf-builder/page-layouts/slug/:slug
 ```
 
 Returns the layout configuration for rendering.
@@ -303,7 +303,7 @@ Returns the layout configuration for rendering.
 #### Get All MF Sources
 
 ```
-GET /api/mf-plugin/mf-sources
+GET /api/mf-builder/mf-sources
 ```
 
 Returns all registered MF sources with their components.

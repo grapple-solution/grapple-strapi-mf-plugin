@@ -569,7 +569,7 @@ export interface PluginI18NLocale extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface PluginMfPluginMfSource extends Struct.CollectionTypeSchema {
+export interface PluginMfBuilderMfSource extends Struct.CollectionTypeSchema {
   collectionName: 'mf_sources';
   info: {
     description: 'Module Federation remote source configuration';
@@ -590,7 +590,7 @@ export interface PluginMfPluginMfSource extends Struct.CollectionTypeSchema {
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
-      'plugin::mf-plugin.mf-source'
+      'plugin::mf-builder.mf-source'
     > &
       Schema.Attribute.Private;
     manifestUrl: Schema.Attribute.String & Schema.Attribute.Required;
@@ -605,7 +605,7 @@ export interface PluginMfPluginMfSource extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface PluginMfPluginPageLayout extends Struct.CollectionTypeSchema {
+export interface PluginMfBuilderPageLayout extends Struct.CollectionTypeSchema {
   collectionName: 'page_layouts';
   info: {
     description: 'Visual page layout configuration';
@@ -627,7 +627,7 @@ export interface PluginMfPluginPageLayout extends Struct.CollectionTypeSchema {
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
-      'plugin::mf-plugin.page-layout'
+      'plugin::mf-builder.page-layout'
     > &
       Schema.Attribute.Private;
     metadata: Schema.Attribute.JSON;
@@ -1017,8 +1017,8 @@ declare module '@strapi/strapi' {
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;
-      'plugin::mf-plugin.mf-source': PluginMfPluginMfSource;
-      'plugin::mf-plugin.page-layout': PluginMfPluginPageLayout;
+      'plugin::mf-builder.mf-source': PluginMfBuilderMfSource;
+      'plugin::mf-builder.page-layout': PluginMfBuilderPageLayout;
       'plugin::review-workflows.workflow': PluginReviewWorkflowsWorkflow;
       'plugin::review-workflows.workflow-stage': PluginReviewWorkflowsWorkflowStage;
       'plugin::upload.file': PluginUploadFile;

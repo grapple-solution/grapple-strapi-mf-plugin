@@ -202,7 +202,7 @@ export function BuilderPage() {
   const handleExport = async () => {
     if (!layout) return;
     try {
-      const response = await fetch(`/mf-plugin/layouts/${layout.documentId}/export`, {
+      const response = await fetch(`/mf-builder/layouts/${layout.documentId}/export`, {
         credentials: 'include',
       });
       const exported = await response.json();

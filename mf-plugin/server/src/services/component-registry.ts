@@ -1,14 +1,14 @@
 import type { Core } from '@strapi/strapi';
 import type { ParsedComponent, ComponentWithSource, MFSource } from '../types';
 
-const PLUGIN_ID = 'plugin::mf-plugin';
+const PLUGIN_ID = 'plugin::mf-builder';
 
 const componentRegistryService = ({ strapi }: { strapi: Core.Strapi }) => ({
   /**
    * Get default components service
    */
   getDefaultComponentsService() {
-    return strapi.plugin('mf-plugin').service('default-components');
+    return strapi.plugin('mf-builder').service('default-components');
   },
 
   /**

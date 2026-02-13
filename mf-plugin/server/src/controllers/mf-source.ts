@@ -1,6 +1,6 @@
 import type { Core } from '@strapi/strapi';
 
-const PLUGIN_ID = 'plugin::mf-plugin';
+const PLUGIN_ID = 'plugin::mf-builder';
 
 const mfSourceController = ({ strapi }: { strapi: Core.Strapi }) => ({
   /**
@@ -43,7 +43,7 @@ const mfSourceController = ({ strapi }: { strapi: Core.Strapi }) => ({
 
     try {
       // Fetch and parse the manifest
-      const manifestService = strapi.plugin('mf-plugin').service('manifest');
+      const manifestService = strapi.plugin('mf-builder').service('manifest');
       const parsed = await manifestService.fetchAndParse(manifestUrl);
 
       // Create the MF source
@@ -92,7 +92,7 @@ const mfSourceController = ({ strapi }: { strapi: Core.Strapi }) => ({
     // If manifestUrl changed, re-fetch the manifest
     if (manifestUrl && manifestUrl !== existing.manifestUrl) {
       try {
-        const manifestService = strapi.plugin('mf-plugin').service('manifest');
+        const manifestService = strapi.plugin('mf-builder').service('manifest');
         const parsed = await manifestService.fetchAndParse(manifestUrl);
 
         updateData.manifestUrl = manifestUrl;
@@ -131,7 +131,7 @@ const mfSourceController = ({ strapi }: { strapi: Core.Strapi }) => ({
     }
 
     try {
-      const manifestService = strapi.plugin('mf-plugin').service('manifest');
+      const manifestService = strapi.plugin('mf-builder').service('manifest');
       const parsed = await manifestService.fetchAndParse(existing.manifestUrl);
 
       const source = await strapi.documents(`${PLUGIN_ID}.mf-source`).update({

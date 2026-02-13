@@ -16,7 +16,7 @@ export async function fetchLayoutById(
   console.log("[API] Fetching layout by ID:", documentId);
 
   const response = await fetch(
-    `${STRAPI_URL}/mf-plugin/layouts/${documentId}/export`,
+    `${STRAPI_URL}/mf-builder/layouts/${documentId}/export`,
     {
       headers: {
         "Content-Type": "application/json",
@@ -45,7 +45,7 @@ export async function fetchLayoutBySlug(
   console.log("[API] Fetching layout by slug:", slug);
 
   // First, get all layouts and find the one with matching slug
-  const response = await fetch(`${STRAPI_URL}/mf-plugin/layouts`, {
+  const response = await fetch(`${STRAPI_URL}/mf-builder/layouts`, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -76,10 +76,10 @@ export async function fetchLayoutBySlug(
 export async function fetchAllLayouts(): Promise<PageLayout[]> {
   console.log(
     "[API] Fetching layouts from:",
-    `${STRAPI_URL}/mf-plugin/layouts`,
+    `${STRAPI_URL}/mf-builder/layouts`,
   );
 
-  const response = await fetch(`${STRAPI_URL}/mf-plugin/layouts`, {
+  const response = await fetch(`${STRAPI_URL}/mf-builder/layouts`, {
     headers: {
       "Content-Type": "application/json",
     },
