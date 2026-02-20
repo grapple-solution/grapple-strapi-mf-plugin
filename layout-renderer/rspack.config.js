@@ -28,11 +28,8 @@ export default {
     mainFields: ["svelte", "browser", "module", "main"],
   },
 
-  server: {
-    port: 3001,
-  },
-
   devServer: {
+    host: "0.0.0.0",
     port: 3001,
     hot: true,
     historyApiFallback: true,
