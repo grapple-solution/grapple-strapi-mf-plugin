@@ -208,12 +208,21 @@ export function BuilderPage() {
       const component = dragData.component;
       const span = Math.min(DEFAULT_NEW_ITEM_SPAN, gridConfig.columns);
       const slot = findNextSlot(items, gridConfig.columns, span, 1);
+      // Seed props from the component's schema defaults so dropped components
+      // start with sensible values instead of an empty object.
+      const defaultProps: Record<string, unknown> = {};
+      const propDefs = component.props || {};
+      for (const [propName, propDef] of Object.entries(propDefs)) {
+        if (propDef && typeof propDef === 'object' && 'default' in propDef) {
+          defaultProps[propName] = (propDef as { default?: unknown }).default;
+        }
+      }
       addItem({
         componentId: component.id,
         mfSourceId: component.sourceId,
         gridColumn: formatGridValue({ start: slot.col, span }),
         gridRow: formatGridValue({ start: slot.row, span: 1 }),
-        props: {},
+        props: defaultProps,
       });
       return;
     }
